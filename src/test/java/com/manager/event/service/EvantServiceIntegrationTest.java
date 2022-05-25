@@ -5,6 +5,7 @@ import com.manager.event.TestUtils;
 import com.manager.event.converter.EventConverter;
 import com.manager.event.dto.EventRequest;
 import com.manager.event.dto.EventResponse;
+import com.manager.event.dto.EventType;
 import com.manager.event.repository.EventRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Transactional
 public class EvantServiceIntegrationTest {
 
-    public static final EventRequest EVENT_REQUEST_ONLINE = TestUtils.getTestEventRequestOnline();
-    public static final EventResponse TEST_EVENT_RESPONSE_ONLINE = TestUtils.getTestEventResponseOnline();
+    private static final EventRequest EVENT_REQUEST_ONLINE = TestUtils.getTestEventRequest(EventType.ONLINE);
+    private static final EventResponse EVENT_RESPONSE_ONLINE = TestUtils.getTestEventResponse(EventType.ONLINE);
 
     @Autowired
     private EventRepository repository;
@@ -30,10 +31,11 @@ public class EvantServiceIntegrationTest {
 
 
     @Test
-    void getById() {
+    void getByIdTest() {
         service.save(EVENT_REQUEST_ONLINE);
 
         EventResponse eventResponse = service.getById(1l);
-        assertEquals(TEST_EVENT_RESPONSE_ONLINE, eventResponse);
+        assertEquals(EVENT_RESPONSE_ONLINE, eventResponse);
     }
 }
+
