@@ -5,6 +5,7 @@ import com.manager.event.TestUtils;
 import com.manager.event.converter.EventConverter;
 import com.manager.event.dto.EventRequest;
 import com.manager.event.dto.EventResponse;
+import com.manager.event.dto.EventType;
 import com.manager.event.service.EventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,8 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest
 class EventControllerTest {
 
-    public static final EventResponse EVENT_RESPONSE_ONLINE = TestUtils.getTestEventResponseOnline();
-    public static final EventRequest EVENT_REQUEST_OFFLINE = TestUtils.getTestEventRequestOffline();
+    public static final EventResponse EVENT_RESPONSE_ONLINE = TestUtils.getTestEventResponse(EventType.ONLINE);
+    public static final EventRequest EVENT_REQUEST_OFFLINE = TestUtils.getTestEventRequest(EventType.OFFLINE);
 
     @Autowired
     private MockMvc mockMvc;
@@ -46,15 +47,14 @@ class EventControllerTest {
     }
 
     @Test
-    void getEventById() throws Exception {
+    void getEventByIdTest() throws Exception {
         mockMvc.perform(get("/api/v1/event/1"))
                .andDo(print()).andExpect(status().isOk())
-               .andExpect(content().string(containsString(objectMapper.writeValueAsString(EVENT_RESPONSE_ONLINE))))
-               .andReturn();
+               .andExpect(content().string(containsString(objectMapper.writeValueAsString(EVENT_RESPONSE_ONLINE))));
     }
 
     @Test
-    void saveEvent() throws Exception {
+    void saveEventTest() throws Exception {
         mockMvc.perform(post("/api/v1/event")
                                 .contentType("application/json")
                                 .content(objectMapper.writeValueAsString(EVENT_REQUEST_OFFLINE)))
